@@ -1,0 +1,111 @@
+d = list(input('아버지의 혈액형을 입력하세요 Ex) A :  '))
+if len(d) == 2 :
+    d.append('A')
+    d.append('B')
+elif d[0] == 'O' :
+    d.append('O')
+    d.append('O')
+    d.append('O')
+elif d[0] == 'A' :
+    dd = input('친할아버지의 혈액형을 입력하세요 :')
+    dm = input('친할머니의 혈액형을 입력하세요 :')
+    if dd == 'B' or dd == 'O' or dm == 'B' or dm == 'O' :
+        d.append('O')
+        d.append('A')
+        d.append('O')
+    elif dd == 'AB' and dm == 'AB' :
+        d.append('A')
+        d.append('A')
+        d.append('A')
+    else:
+        d.append('A')
+        d.append('A')
+        d.append('O')
+else :
+    dd = input('친할아버지의 혈액형을 입력하세요 :')
+    dm = input('친할머니의 혈액형을 입력하세요 :')
+    if dd == 'A' or dd == 'O' or dm == 'A' or dm == 'O' :
+        d.append('O')
+        d.append('B')
+        d.append('O')
+    elif dd == 'AB' and dm == 'AB' :
+        d.append('B')
+        d.append('B')
+        d.append('B')
+    else :
+        d.append('B')
+        d.append('B')
+        d.append('O')
+
+m = list(input('어머니의 혈액형을 입력하세요 Ex) A :  '))
+if len(m) == 2 :
+    m.append('A')
+    m.append('B')
+elif m[0] == 'O' :
+    m.append('O')
+    m.append('O')
+    m.append('O')
+elif m[0] == 'A' :
+    md = input('외할아버지의 혈액형을 입력하세요 :')
+    mm = input('외할머니의 혈액형을 입력하세요 :')
+    if md == 'B' or md == 'O' or mm == 'B' or mm == 'O' :
+        m.append('O')
+        m.append('A')
+        m.append('O')
+    elif md == 'AB' and mm == 'AB' :
+        m.append('A')
+        m.append('A')
+        m.append('A')
+    else:
+        m.append('A')
+        m.append('A')
+        m.append('O')
+else :
+    md = input('외할아버지의 혈액형을 입력하세요 :')
+    mm = input('외할머니의 혈액형을 입력하세요 :')
+    if md == 'A' or md == 'O' or mm == 'A' or mm == 'O' :
+        m.append('O')
+        m.append('B')
+        m.append('O')
+    elif md == 'AB' and mm == 'AB' :
+        m.append('B')
+        m.append('B')
+        m.append('B')
+    else :
+        m.append('B')
+        m.append('B')
+        m.append('O')
+son = [d[0]+m[0], d[0]+m[1], d[0]+m[2], d[0]+m[3], d[1]+m[0], d[1]+m[1], 
+       d[1]+m[2], d[1]+m[3], d[2]+m[0], d[2]+m[1], d[2]+m[2], d[2]+m[3], 
+       d[3]+m[0], d[3]+m[1], d[3]+m[2], d[3]+m[3]]
+
+
+for i in range(0,16) :
+    if son[i] == 'BA' :
+        son[i] = 'AB'
+    elif son[i] == 'OA' :
+        son[i] = 'AO'
+    elif son[i] == 'OB' :
+        son[i] = 'BO'
+        
+cAB = 6.25 * (son.count('AB'))
+cAO = 6.25 * (son.count('AO'))
+cAA = 6.25 * (son.count('AA'))
+cBB = 6.25 * (son.count('BB'))
+cBO = 6.25 * (son.count('BO'))
+cOO = 6.25 * (son.count('OO'))
+pro = {"AO": cAO, "AA": cAA, "AB": cAB, "BO": cBO, "BB": cBB, "OO" : cOO}
+print(pro)
+
+import matplotlib.pyplot as plt
+plt.figure(figsize=(3,2), dpi=300)
+
+size = [cAO, cAA, cAB, cBB, cBO, cOO]  
+labels = 'AO', 'AA', 'AB', 'BB','BO','OO'
+colors = ['hotpink', 'red', 'blueviolet', 'blue','lightskyblue','lightgray']
+
+plt.title('blood type')
+plt.pie(size, labels=labels, colors=colors, autopct='%1.1f%%', startangle=90)
+
+plt.axis('equal')
+plt.show()
