@@ -100,9 +100,23 @@ print(pro)
 import matplotlib.pyplot as plt
 plt.figure(figsize=(3,2), dpi=300)
 
-size = [cAO, cAA, cAB, cBB, cBO, cOO]  
-labels = 'AO', 'AA', 'AB', 'BB','BO','OO'
-colors = ['hotpink', 'red', 'blueviolet', 'blue','lightskyblue','lightgray']
+#value값이 0인 key들 제거
+delkey=[]
+for i in pro:
+    if pro[i]==0.0:
+        delkey.append(i)
+for i in delkey:
+    del pro[i]
+        
+#pro에서 size와 labels 제작
+labels = list(pro.keys())
+size = list(pro.values())
+
+#수에 맞는 색을 팔레트에서 추출
+palette = ['hotpink', 'red', 'blueviolet', 'blue','lightskyblue','lightgray']
+colors = []
+for i in pro:
+    colors.append(palette.pop())
 
 plt.title('blood type')
 plt.pie(size, labels=labels, colors=colors, autopct='%1.1f%%', startangle=90)
