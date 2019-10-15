@@ -1,84 +1,125 @@
 d = list(input('아버지의 혈액형을 입력하세요 Ex) A :  '))
-if len(d) == 2 :
-    d.append('A')
-    d.append('B')
-elif d[0] == 'O' :
-    d.append('O')
-    d.append('O')
-    d.append('O')
-elif d[0] == 'A' :
-    dd = input('친할아버지의 혈액형을 입력하세요 :')
-    dm = input('친할머니의 혈액형을 입력하세요 :')
-    if dd == 'B' or dd == 'O' or dm == 'B' or dm == 'O' :
-        d.append('O')
-        d.append('A')
-        d.append('O')
-    elif dd == 'AB' and dm == 'AB' :
-        d.append('A')
-        d.append('A')
-        d.append('A')
-    else:
-        d.append('A')
-        d.append('A')
-        d.append('O')
-else :
-    dd = input('친할아버지의 혈액형을 입력하세요 :')
-    dm = input('친할머니의 혈액형을 입력하세요 :')
-    if dd == 'A' or dd == 'O' or dm == 'A' or dm == 'O' :
-        d.append('O')
-        d.append('B')
-        d.append('O')
-    elif dd == 'AB' and dm == 'AB' :
-        d.append('B')
-        d.append('B')
-        d.append('B')
-    else :
-        d.append('B')
-        d.append('B')
-        d.append('O')
 
-m = list(input('어머니의 혈액형을 입력하세요 Ex) A :  '))
-if len(m) == 2 :
-    m.append('A')
-    m.append('B')
-elif m[0] == 'O' :
-    m.append('O')
-    m.append('O')
-    m.append('O')
-elif m[0] == 'A' :
-    md = input('외할아버지의 혈액형을 입력하세요 :')
-    mm = input('외할머니의 혈액형을 입력하세요 :')
-    if md == 'B' or md == 'O' or mm == 'B' or mm == 'O' :
-        m.append('O')
-        m.append('A')
-        m.append('O')
-    elif md == 'AB' and mm == 'AB' :
-        m.append('A')
-        m.append('A')
-        m.append('A')
-    else:
-        m.append('A')
-        m.append('A')
-        m.append('O')
-else :
-    md = input('외할아버지의 혈액형을 입력하세요 :')
-    mm = input('외할머니의 혈액형을 입력하세요 :')
-    if md == 'A' or md == 'O' or mm == 'A' or mm == 'O' :
-        m.append('O')
-        m.append('B')
-        m.append('O')
-    elif md == 'AB' and mm == 'AB' :
-        m.append('B')
-        m.append('B')
-        m.append('B')
+# list에 혈액형 type을 Append한다.
+
+# str : Append할 혈액형 Type
+
+# mlist : 부계 또는 모계 혈액형 type을 가지고있을 list 변수
+
+def AppendList(str, mlist):
+
+    for a in str:
+
+        mlist.append(a)
+
+
+
+
+#딕셔너리를 이용하여 입력된 혈액형별 type 문자열을 리턴한다. 만일 없을경우 'XXXX'를 리턴
+
+# x : 입력된 혈액형 문자열
+
+def GetBloodType(x) :
+
+    return {'AB':'ABAB', 'O':'OOOO', 'C':'AOAO', 'D':'AAAA', 'E':'AAAO', 'F':'BOBO', 'G':'BBBB', 'H':'BBBO'}.get(x, 'XXXX')
+
+
+
+
+#혈액형을 입력받는다. 만일 소문자로 입력하였을 경우 대문자로 변환하며 입력된 데이터가
+
+#ABO 혈액형 문자가 아닐경우 에러처리를 하고 다시입력 받는다.
+
+#inTitle : 혈액형 입력시 출력되는 안내문
+
+def GetBloodData(inTitle) :
+
+    while True :
+
+        s = input(inTitle)
+
+        x = s.upper()
+
+        if x == 'A' or x == 'B' or x == 'O' or x == 'AB' : # 입력된 문자(열)이 ABO식일경우 대문자로 변환된 문자(열) 리턴
+
+            return x
+
+        else :
+
+            print('잘못 입력했습니다. 다시입력해 주세요.')
+
+
+
+
+#부모님(필요시 조부모님)의 혈액형을 입력받아 각각 list에 저장한다.
+
+#pName : '아버지' 또는 '어머니' 문자열
+
+#mlist : 혈액형 type을 저장할 list
+
+def GetParentBlood(pName, mlist):
+
+    s1 = GetBloodData(pName+'의 혈액형을 입력하세요 Ex) A, B, O or AB : ')
+
+    s2 = GetBloodType(s1)
+
+    if s2 == 'XXXX' :
+
+        gpName = '친'
+
+        if pName == '어머니' :
+
+            gpName = '외'
+
+        dd = GetBloodData(gpName+'할아버지의 혈액형을 입력하세요 Ex) A, B, O or AB :')
+
+        dm = GetBloodData(gpName+'할머니의 혈액형을 입력하세요 Ex) A, B, O or AB :')     
+
+        if s1 == 'A' :
+
+            if dd == 'B' or dd == 'O' or dm == 'B' or dm == 'O' :
+
+                AppendList(GetBloodType('C'), mlist)
+
+            elif dd == 'AB' and dm == 'AB' :
+
+                AppendList(GetBloodType('D'), mlist)
+
+            else:
+
+                AppendList(GetBloodType('E'), mlist)            
+
+        else :
+
+            if dd == 'A' or dd == 'O' or dm == 'A' or dm == 'O' :
+
+                AppendList(GetBloodType('F'), mlist)
+
+            elif dd == 'AB' and dm == 'AB' :
+
+                AppendList(GetBloodType('G'), mlist)
+
+            else :
+
+                AppendList(GetBloodType('H'), mlist)           
+
     else :
-        m.append('B')
-        m.append('B')
-        m.append('O')
-son = []
-for a in range(0,4) :
-    for b in range(0,4) : 
-        son.append(d[a]+m[b])
+
+        AppendList(s2, mlist)
+
+        
+
+d = list()
+
+GetParentBlood('아버지', d)
+
+
+
+
+m = list()
+
+GetParentBlood('어머니', m)
+
 
 
 for i in range(0,16) :
